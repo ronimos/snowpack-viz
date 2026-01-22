@@ -22,8 +22,8 @@ Requires Python 3.12+
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd snow_map
+git clone https://github.com/ronimos/snowpack-viz.git
+cd snowpack-viz
 
 # Create virtual environment
 python -m venv .venv
@@ -36,6 +36,13 @@ pip install -e .
 ## Usage
 
 ### 1. Fetch Data (if using remote SNOWPACK server)
+
+Copy the example configuration files and edit with your settings:
+
+```bash
+cp fetch_data.sh.example fetch_data.sh
+cp smet_paths.txt.example smet_paths.txt
+```
 
 Edit `fetch_data.sh` and `smet_paths.txt` to configure your data source:
 
@@ -54,13 +61,13 @@ LOCAL_DIR="./data"
 
 ```bash
 # Process all .smet files in the data folder
-python src/snow_map/main.py --folder ./data
+python src/snowpack_viz/main.py --folder ./data
 
 # Or specify individual files
-python src/snow_map/main.py --files station1.smet station2.smet
+python src/snowpack_viz/main.py --files station1.smet station2.smet
 
 # Custom output file
-python src/snow_map/main.py --folder ./data --output my_map.html
+python src/snowpack_viz/main.py --folder ./data --output my_map.html
 ```
 
 ### 3. View the Map
@@ -72,13 +79,15 @@ Open the generated `snow_conditions_map.html` in any web browser.
 Use the convenience script to fetch data, generate the map, and publish in one command:
 
 ```bash
-./update_snow_map.sh
+cp update_snowpack_viz.sh.example update_snowpack_viz.sh
+chmod +x update_snowpack_viz.sh
+./update_snowpack_viz.sh
 ```
 
 Before running, edit the script to configure your remote server settings:
 
 ```bash
-# update_snow_map.sh - configure these variables:
+# update_snowpack_viz.sh - configure these variables:
 REMOTE_USER="your_username"
 REMOTE_HOST="your.server.com"
 REMOTE_PORT="22"
@@ -89,7 +98,7 @@ This script is ideal for automation via cron job:
 
 ```bash
 # Run every 6 hours
-0 */6 * * * /path/to/snow_map/update_snow_map.sh >> /path/to/snow_map/update.log 2>&1
+0 */6 * * * /path/to/snowpack-viz/update_snowpack_viz.sh >> /path/to/snowpack-viz/update.log 2>&1
 ```
 
 ## Adapting for Different Regions
@@ -140,13 +149,18 @@ When rain is detected, station markers display a red border instead of green.
 
 To automatically publish the generated map:
 
-1. Create a `.env` file in `src/snow_map/`:
+1. Copy and edit the environment file:
+   ```bash
+   cp .env.example .env
    ```
-   SSH_HOST=your.server.com
-   SSH_PORT=22
+
+   Then edit `.env` with your server details:
+   ```
+   TARGET_HOST=your.server.com
+   TARGET_PORT=22
    SSH_USER=username
-   SSH_KEY_PATH=/path/to/private/key
-   REMOTE_PATH=/var/www/html/
+   SSH_PASSWORD=your_password_or_leave_empty_for_key_auth
+   REMOTE_DEST_PATH=~/public_html/
    ```
 
 2. Uncomment the publish line in `main.py`:
@@ -179,8 +193,14 @@ snowpack-viz/
 
 ## License
 
-[Add your license here]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
-[Add contribution guidelines here]
+Contributions are welcome! Feel free to:
+
+- Open an issue to report bugs or suggest features
+- Submit a pull request with improvements
+- Share your adaptations for different regions
+
+For major changes, please open an issue first to discuss what you would like to change.
