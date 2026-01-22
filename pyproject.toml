@@ -1,0 +1,13 @@
+[project]
+name = "snowpack-viz"
+version = "0.1.0"
+description = "Interactive web-based snow conditions map generator for SNOWPACK model output"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "folium>=0.20.0",
+    "pandas>=2.2.3",
+    "paramiko>=4.0.0",
+    "scp>=0.15.0",
+]

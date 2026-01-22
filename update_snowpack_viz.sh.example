@@ -1,0 +1,39 @@
+#!/bin/bash
+# update_snowpack_viz.sh - Fetch data, regenerate map, and publish
+
+set -e  # Exit on error
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR"
+
+# Configuration - UPDATE THESE VALUES
+OUTPUT_FILE="snow_conditions_map.html"
+REMOTE_USER="your_username"
+REMOTE_HOST="your.server.com"
+REMOTE_PORT="22"
+REMOTE_PATH="~/public_html/"  # Adjust this to your web directory
+
+echo "========================================"
+echo "Snowpack-Viz Update - $(date)"
+echo "========================================"
+
+# 1. Fetch latest data
+echo ""
+echo "Fetching latest SMET data..."
+./fetch_data.sh
+
+# 2. Generate map
+echo ""
+echo "Generating snow conditions map..."
+source .venv/bin/activate
+python src/snowpack_viz/main.py --folder ./data --output "$OUTPUT_FILE"
+
+# 3. Publish to remote server
+echo ""
+echo "Publishing to ${REMOTE_HOST}..."
+scp -P "$REMOTE_PORT" "$OUTPUT_FILE" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}"
+
+echo ""
+echo "========================================"
+echo "Update complete!"
+echo "========================================"

@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+ENV/
+.egg-info/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+
+# Data files - do not share
+data/
+*.smet
+
+# Shell scripts with credentials (use .example versions)
+fetch_data.sh
+update_snowpack_viz.sh
+smet_paths.txt
+
+# Generated output
+*.html
+snow_conditions_map.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Misc
+cd

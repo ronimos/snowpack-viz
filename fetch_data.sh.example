@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Configuration - UPDATE THESE VALUES
+REMOTE_USER="your_username"
+REMOTE_HOST="your.server.com"
+REMOTE_PORT="22"
+LOCAL_DIR="./data"
+FILE_LIST="smet_paths.txt"
+
+# Create destination directory if it doesn't exist
+mkdir -p "$LOCAL_DIR"
+
+# Run rsync
+# -a: archive mode (preserves permissions/times)
+# -v: verbose
+# -z: compress during transfer
+# --files-from: reads the list of specific files to transfer
+# The source path "/" ensures absolute paths in your text file work correctly
+rsync -avz -e "ssh -p $REMOTE_PORT" --files-from="$FILE_LIST" "${REMOTE_USER}@${REMOTE_HOST}:/" "$LOCAL_DIR"
+
+echo "Download complete."

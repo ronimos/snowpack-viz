@@ -1,0 +1,5 @@
+# List of SMET file paths on the remote server
+# One file per line, using absolute paths
+# Example:
+/path/to/snowpack/output/station1/station1_res.smet
+/path/to/snowpack/output/station2/station2_res.smet
